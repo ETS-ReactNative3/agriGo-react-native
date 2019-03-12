@@ -17,7 +17,7 @@ import SignInScreen from "../screens/SignInScreen";
 import ShareScreen from "../screens/ShareScreen";
 import Profile from "../screens/Profile";
 import ViewScreen from "../screens/ViewRequest";
-import Entypo from "@expo/vector-icons/Entypo";
+import { Entypo } from "@expo/vector-icons";
 import RideComplete from "../screens/RideComplete.js";
 
 const profileScreen = createStackNavigator({
@@ -43,25 +43,25 @@ const AppTabNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: (
           <Image
-            style={{ width: 90, height: 100, marginBottom: 40 }}
+            style={{ width: 60, height: 60, marginBottom: 40 }}
             source={require("../assets/images/logo.png")}
           />
         )
       }
     },
-    Ride: {
-      screen: RideComplete,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => {
-          return <Entypo color="#f7b733" size={24} name="user" />;
-        }
-      }
-    },
+    // Ride: {
+    //   screen: RideComplete,
+    //   navigationOptions: {
+    //     tabBarIcon: ({ tintColor }) => {
+    //       return <Entypo color="#f7b733" size={24} name="user" />;
+    //     }
+    //   }
+    // },
     ShareScreen: {
       screen: ShareScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => {
-          return <Entypo color="#f7b733" size={24} name="user" />;
+          return <Entypo color="#f7b733" size={24} name="info" />;
         }
       }
     }
@@ -134,6 +134,6 @@ const AuthStackNavigator = createStackNavigator(
 export default createSwitchNavigator({
   AuthLoader: LoadingScreen,
   Auth: AuthStackNavigator,
-  // Profile: profileScreen,
+  Profile: profileScreen,
   App: AppDrawerNavigator
 });

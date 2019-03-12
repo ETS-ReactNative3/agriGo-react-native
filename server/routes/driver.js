@@ -72,7 +72,7 @@ router.get("/check", async (req, res) => {
 
 router.post("/profile", async (req, res) => {
   const user = req.user;
-
+  console.log("profile route hit");
   let geoFormat = {
     type: "Point",
     coordinates: [req.body.lat, req.body.long]
@@ -239,4 +239,15 @@ router.get("/endtrip", (req, res) => {
   res.json({ message: "Trip completed successfully" });
 });
 
+router.get("/:id", async (req, res) => {
+  console.log("hit user id route");
+  try {
+    let foundUser = await User.findById(req.params.id);
+    return res.json(foundUser);
+  } catch (e) {
+    return res.json({
+      message: "sorry the requested driver could not be found"
+    });
+  }
+});
 module.exports = router;

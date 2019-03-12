@@ -18,7 +18,7 @@ import {
   Container
 } from "native-base";
 import { LinearGradient } from "expo";
-const localip = "192.168.0.104";
+const localip = "192.168.0.105";
 export default class SignInScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -147,13 +147,13 @@ export default class SignInScreen extends React.Component {
                 fontFamily: "Billabong",
                 color: "white",
                 paddingBottom: 0,
-                height: 80
+                height: 100
               }}
             >
-              Deliveride
+              AgriGo
             </Text>
-            <Text style={{ color: "white", fontSize: 12 }}>
-              NextGen delivery. Powered by Web3
+            <Text style={{ color: "white", fontSize: 12, marginTop: 20 }}>
+              Agriculture Get's On
             </Text>
           </View>
           <View style={{ flex: 4 }}>

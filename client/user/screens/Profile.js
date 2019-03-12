@@ -6,7 +6,8 @@ import {
   Text,
   View,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  TouchableHighlight
 } from "react-native";
 import {
   Label,
@@ -23,8 +24,9 @@ import {
   Body,
   Thumbnail
 } from "native-base";
+import { ImagePicker } from "expo";
 
-const localip = "192.168.0.104";
+const localip = "192.168.0.105";
 export default class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -32,14 +34,16 @@ export default class Profile extends React.Component {
       value: {
         name: "",
         address: "",
-        phoneNo: ""
+        phoneNo: "",
+        image:
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
       },
-      progress: 10
+      progress: Dimensions.get("window").width - 100
     };
     this.onValueChangeName = this.onValueChangeName.bind(this);
     this.onValueChangeAddress = this.onValueChangeAddress.bind(this);
     this.onValueChangeNumber = this.onValueChangeNumber.bind(this);
-
+    this._pickImage = this._pickImage.bind(this);
     this._handleAdd = this._handleNext.bind(this);
   }
 
@@ -53,6 +57,20 @@ export default class Profile extends React.Component {
 
     this.setState({ state });
   }
+  _pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3]
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      let state = { ...this.state };
+      state.value.image = result.uri;
+      this.setState({ state });
+    }
+  };
 
   onValueChangeAddress(e) {
     let state = { ...this.state };
@@ -75,7 +93,7 @@ export default class Profile extends React.Component {
     };
     console.log(data);
     const json = JSON.stringify(data);
-    fetch(`https://${localip}:3000/user/profile`, {
+    fetch(`http://${localip}:3000/user/profile`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -90,11 +108,13 @@ export default class Profile extends React.Component {
           alert(res.error);
         } else {
           alert(res.message);
+
           // Redirect to home screen
           // this.props.navigation.navigate("Home");
         }
       })
-      .catch(() => {
+      .catch(e => {
+        console.log("errororo", e);
         alert("There was an error logging in.");
       })
       .done();
@@ -102,6 +122,7 @@ export default class Profile extends React.Component {
 
   render() {
     const progress = this.state.progress;
+
     return (
       <View style={styles.container}>
         {/* <Button onPress={()=>{this.props.navigation.navigate("AuthLoader");AsyncStorage.clear();}} title="logout" /> */}
@@ -111,14 +132,15 @@ export default class Profile extends React.Component {
             alignItems: "center"
           }}
         >
-          <Thumbnail
-            style={{ width: 120, height: 120, borderRadius: 100 }}
-            size={50}
-            source={{
-              uri:
-                "https://vignette.wikia.nocookie.net/inclusive-marvel/images/b/b8/Tony-Stark-1.jpg/revision/latest?cb=20140820031842"
-            }}
-          />
+          <TouchableHighlight onPress={this._pickImage}>
+            <Thumbnail
+              style={{ width: 120, height: 120, borderRadius: 100 }}
+              size={50}
+              source={{
+                uri: this.state.value.image
+              }}
+            />
+          </TouchableHighlight>
           <View style={{ marginTop: 5 }}>
             <Text style={{ fontSize: 25 }}>Stark</Text>
           </View>
@@ -129,28 +151,19 @@ export default class Profile extends React.Component {
               height: 7,
               borderRadius: 20,
               marginTop: 0,
-              width: progress,
+              width: 320,
               backgroundColor: "#ffa700"
             }}
           />
-          <Text style={{ textAlign: "left" }}>10%</Text>
+          {/* <Text style={{ textAlign: "left" }}>10%</Text> */}
         </View>
-        <ScrollView style={{ flex: 2 }}>
+        <ScrollView style={{ flex: 2, marginTop: 50 }}>
           <View style={{ flex: 1 }}>
             <Card>
               <List>
                 <ListItem>
                   <Item>
                     <Input
-                      onEndEditing={() => {
-                        this.setState({ ...this.state, progress: 100 });
-                      }}
-                      onResponderStart={() => {
-                        this.setState({
-                          ...this.state,
-                          progress: progress - 100
-                        });
-                      }}
                       onChangeText={this.onValueChangeName}
                       placeholder="Name"
                     />
@@ -159,15 +172,6 @@ export default class Profile extends React.Component {
                 <ListItem>
                   <Item>
                     <Input
-                      onEndEditing={() => {
-                        this.setState({ ...this.state, progress: 100 });
-                      }}
-                      onResponderStart={() => {
-                        this.setState({
-                          ...this.state,
-                          progress: progress - 100
-                        });
-                      }}
                       onChangeText={this.onValueChangeAddress}
                       placeholder="Enter Address"
                     />
@@ -178,15 +182,6 @@ export default class Profile extends React.Component {
                     <Input
                       keyboardType="number-pad"
                       maxLength={10}
-                      onEndEditing={() => {
-                        this.setState({ ...this.state, progress: 100 });
-                      }}
-                      onResponderStart={() => {
-                        this.setState({
-                          ...this.state,
-                          progress: progress - 100
-                        });
-                      }}
                       onChangeText={this.onValueChangeNumber}
                       placeholder="Enter PhoneNo"
                     />

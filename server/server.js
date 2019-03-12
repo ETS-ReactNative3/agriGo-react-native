@@ -9,7 +9,7 @@ const redis = require("redis");
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
-const localip = "192.168.0.104";
+const localip = "192.168.0.105";
 
 let userId = "";
 

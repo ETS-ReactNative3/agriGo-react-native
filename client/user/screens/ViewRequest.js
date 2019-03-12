@@ -10,7 +10,7 @@ import {
   Right
 } from "native-base";
 import { AsyncStorage } from "react-native";
-const localip = "192.168.0.104";
+const localip = "192.168.0.105";
 
 export default class ViewScreen extends Component {
   state = { driverData: [], isLoading: false, driverDetails: null };
@@ -100,7 +100,7 @@ export default class ViewScreen extends Component {
               </Left>
             </CardItem>
             <CardItem button>
-              <Text>Date:{new Date(data.date).toDateString()}</Text>
+              <Text>Date:{new Date(data.startTimestamp).toDateString()}</Text>
             </CardItem>
             <CardItem button>
               <Text>Status:{data.decision ? "approved" : "pending"}</Text>

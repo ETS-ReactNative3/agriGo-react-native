@@ -1,9 +1,9 @@
 {
-  "expoServerNgrokUrl": "https://6t-km6.anonymous.user.exp.direct",
-  "packagerNgrokUrl": "https://packager.6t-km6.anonymous.user.exp.direct",
-  "ngrokPid": 23615,
-  "expoServerPort": 19001,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
+  "expoServerPort": null,
   "devToolsPort": 19002,
-  "packagerPort": 19004,
-  "packagerPid": 23549
+  "packagerPort": null,
+  "packagerPid": null
 }

@@ -31,7 +31,7 @@ export default class List extends Component {
                       });
                     }
                   }}
-                  style={{ padding: 10 }}
+                  style={{ padding: 10, backgroundColor: "#ffa700" }}
                 >
                   <Text style={{ color: "white" }}>View Request</Text>
                 </Button>

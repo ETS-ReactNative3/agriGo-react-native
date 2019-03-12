@@ -30,11 +30,11 @@ const ViewNavigator = createStackNavigator({
 
 const AppTabNavigator = createBottomTabNavigator(
   {
-    Ride: {
-      screen: RideComplete,
+    Profile: {
+      screen: Profile,
       navigationOptions: {
-        tabBarIcon: ({ tEntypointColor }) => {
-          return <MaterialIcons color="#f7b733" size={24} name="apps" />;
+        tabBarIcon: ({ tintColor }) => {
+          return <Entypo color="#f7b733" size={24} name="user" />;
         }
       }
     },
@@ -44,30 +44,11 @@ const AppTabNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => {
           return (
-            //   <TouchableOpacity
-            //   style={{
-            //     height: 90,
-            //     width: 90,
-
-            //     borderRadius: 100,
-            //     marginBottom: 40
-            //   }}
-            // >
-
-            // </TouchableOpacity>
             <Image
-              style={{ width: 90, height: 100, marginBottom: 40 }}
+              style={{ width: 60, height: 60, marginBottom: 40 }}
               source={require("../assets/images/logo.png")}
             />
           );
-        }
-      }
-    },
-    Profile: {
-      screen: Profile,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => {
-          return <Entypo color="#f7b733" size={24} name="user" />;
         }
       }
     },
@@ -75,7 +56,7 @@ const AppTabNavigator = createBottomTabNavigator(
       screen: ShareScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => {
-          return <Entypo color="#f7b733" size={24} name="user" />;
+          return <Entypo color="#f7b733" size={24} name="info" />;
         }
       }
     }

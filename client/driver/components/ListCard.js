@@ -12,14 +12,14 @@ import {
 
 export default class List extends Component {
   render() {
-    console.log(this.props.id);
+    console.log("prop data", JSON.stringify(this.props.data));
     return (
       <View style={{ height: 80 }}>
         <Content>
           <Card>
             <CardItem button onPress={() => alert("This is Card Body")}>
               <Left>
-                <Text>Machinery:{this.props.data.machineryName}</Text>
+                <Text>Machinery:{this.props.data.MachineryName}</Text>
               </Left>
 
               <Right>
@@ -30,7 +30,7 @@ export default class List extends Component {
                       data: this.props.data
                     })
                   }
-                  style={{ padding: 10 }}
+                  style={{ padding: 10, backgroundColor: "#f7b733" }}
                 >
                   <Text style={{ color: "white" }}>View Request</Text>
                 </Button>

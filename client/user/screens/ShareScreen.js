@@ -17,7 +17,7 @@ import {
   Left
 } from "native-base";
 import List from "../components/ListCard";
-const localip = "192.168.0.104";
+const localip = "192.168.0.105";
 
 export default class ShareScreen extends React.Component {
   state = { request: [], isLoading: true, refreshing: false };
@@ -57,6 +57,7 @@ export default class ShareScreen extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView
+          style={{ marginTop: 30 }}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}

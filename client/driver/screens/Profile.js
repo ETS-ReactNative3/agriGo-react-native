@@ -6,7 +6,8 @@ import {
   Text,
   View,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  TouchableHighlight
 } from "react-native";
 import {
   Label,
@@ -23,9 +24,10 @@ import {
   Body,
   Thumbnail
 } from "native-base";
+import { ImagePicker } from "expo";
 import CheckBox from "react-native-modest-checkbox";
 
-const localip = "192.168.0.104";
+const localip = "192.168.0.105";
 export default class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -34,7 +36,9 @@ export default class Profile extends React.Component {
         name: "",
         address: "",
         phoneNo: "",
-        machinery: ""
+        machinery: "",
+        image:
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
       },
       progress: 10
     };
@@ -58,6 +62,20 @@ export default class Profile extends React.Component {
 
     this.setState({ state });
   }
+  _pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3]
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      let state = { ...this.state };
+      state.value.image = result.uri;
+      this.setState({ state });
+    }
+  };
 
   onValueChangeAddress(e) {
     let state = { ...this.state };
@@ -106,7 +124,8 @@ export default class Profile extends React.Component {
           // this.props.navigation.navigate("Home");
         }
       })
-      .catch(() => {
+      .catch(e => {
+        console.log("errororo", e);
         alert("There was an error logging in.");
       })
       .done();
@@ -124,14 +143,15 @@ export default class Profile extends React.Component {
             alignItems: "center"
           }}
         >
-          <Thumbnail
-            style={{ width: 120, height: 120, borderRadius: 100 }}
-            size={50}
-            source={{
-              uri:
-                "https://vignette.wikia.nocookie.net/inclusive-marvel/images/b/b8/Tony-Stark-1.jpg/revision/latest?cb=20140820031842"
-            }}
-          />
+          <TouchableHighlight onPress={this._pickImage}>
+            <Thumbnail
+              style={{ width: 120, height: 120, borderRadius: 100 }}
+              size={50}
+              source={{
+                uri: this.state.value.image
+              }}
+            />
+          </TouchableHighlight>
           <View style={{ marginTop: 5 }}>
             <Text style={{ fontSize: 25 }}>Stark</Text>
           </View>

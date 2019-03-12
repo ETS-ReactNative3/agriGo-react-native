@@ -18,12 +18,13 @@ import {
   Input,
   Form,
   Picker,
+  DatePicker,
   Item
 } from "native-base";
 
 import io from "socket.io-client";
 console.ignoredYellowBox = ["Remote debugger"];
-const localip = "192.168.0.104";
+const localip = "192.168.0.105";
 import { YellowBox } from "react-native";
 YellowBox.ignoreWarnings([
   "Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?"
@@ -41,17 +42,19 @@ export default class HomeScreen extends React.Component {
       selected: "key1",
       value: {
         acre: "null",
-        PhoneNo: "null"
+        PhoneNo: "null",
+        date: ""
       }
     };
     this.onValueChangeAcre = this.onValueChangeAcre.bind(this);
     this.handleConfirmRide = this.handleConfirmRide.bind(this);
     this.continueSumbit = this.continueSumbit.bind(this);
     this.onValueChangePhoneNo = this.onValueChangePhoneNo.bind(this);
+    this.setDate = this.setDate.bind(this);
   }
   async continueSumbit({ latitude, longitude }) {
     const data = {
-      date: new Date().getTime(),
+      date: this.state.value.date,
       startLocation: { lat: latitude, long: longitude },
       MachineryName: this.state.selected,
       PhoneNo: this.state.value.PhoneNo,
@@ -84,6 +87,7 @@ export default class HomeScreen extends React.Component {
     });
   };
   async handleConfirmRide() {
+    //  alert("book clicked");
     console.log("trying to book");
     await this.getLocationHandler();
     // await this.continueSumbit({ latitude: 122, longitude: 1233 });
@@ -121,7 +125,7 @@ export default class HomeScreen extends React.Component {
       return responseJson.message;
     } catch (error) {
       console.error(error);
-    } 
+    }
   }
 
   connectSocket() {
@@ -164,7 +168,11 @@ export default class HomeScreen extends React.Component {
     state.value.PhoneNo = e;
     this.setState({ state });
   }
-
+  setDate(newDate) {
+    let state = { ...this.state };
+    state.value.date = newDate;
+    this.setState({ state });
+  }
   render() {
     console.log(this.state);
 
@@ -231,6 +239,25 @@ export default class HomeScreen extends React.Component {
               />
             </Item>
             <Item>
+              <Content>
+                <DatePicker
+                  defaultDate={Date.now()}
+                  minimumDate={Date.now()}
+                  maximumDate={new Date(2020, 1, 1)}
+                  locale={"en"}
+                  timeZoneOffsetInMinutes={undefined}
+                  modalTransparent={false}
+                  animationType={"fade"}
+                  androidMode={"default"}
+                  placeHolderText="Select date"
+                  textStyle={{ color: "#f7b733" }}
+                  placeHolderTextStyle={{ color: "#d3d3d3" }}
+                  onDateChange={this.setDate}
+                  disabled={false}
+                />
+              </Content>
+            </Item>
+            <Item>
               <Input
                 onChangeText={this.onValueChangePhoneNo}
                 keyboardType="number-pad"
@@ -238,17 +265,27 @@ export default class HomeScreen extends React.Component {
               />
             </Item>
           </View>
-          <TouchableOpacity
-            onPress={this.handleConfirmRide}
-            style={{
-              padding: 15,
-              alignItems: "center",
+        </View>
+        <View>
+          <View style={{ flex: 1 }}>
+            <TouchableOpacity
+              onPress={this.handleConfirmRide}
+              style={{
+                marginTop: 20,
+                padding: 15,
+                alignItems: "center",
+                zIndex: 10,
+                position: "absolute",
 
-              backgroundColor: "#f7b733"
-            }}
-          >
-            <Text style={{ color: "white" }}>Confirm Booking</Text>
-          </TouchableOpacity>
+                Bottom: 20,
+                top: 238,
+
+                backgroundColor: "#f7b733"
+              }}
+            >
+              <Text style={{ color: "white" }}>Confirm Booking</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* {end} */}

@@ -1,9 +1,9 @@
 {
   "expoServerNgrokUrl": "https://qd-j33.anonymous.driver.exp.direct",
   "packagerNgrokUrl": "https://packager.qd-j33.anonymous.driver.exp.direct",
-  "ngrokPid": 22236,
-  "expoServerPort": 19000,
+  "ngrokPid": 31842,
+  "expoServerPort": null,
   "devToolsPort": 19003,
-  "packagerPort": 19005,
-  "packagerPid": 22040
+  "packagerPort": null,
+  "packagerPid": null
 }

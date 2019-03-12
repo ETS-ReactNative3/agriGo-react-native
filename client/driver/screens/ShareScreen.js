@@ -17,7 +17,7 @@ import {
   Left
 } from "native-base";
 import List from "../components/ListCard";
-const localip = "192.168.0.104";
+const localip = "192.168.0.105";
 
 export default class ShareScreen extends React.Component {
   state = { request: [], isLoading: true, refreshing: false };
@@ -25,12 +25,11 @@ export default class ShareScreen extends React.Component {
   async componentDidMount() {
     this.fetchData();
   }
-
   async fetchData() {
     this.setState({ refreshing: true });
     let token = await AsyncStorage.getItem("jwt");
     console.log(token);
-    let req = await fetch(`http:/${localip}:3000/driver/requests`, {
+    let req = await fetch(`http://${localip}:3000/driver/requests`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -39,10 +38,10 @@ export default class ShareScreen extends React.Component {
       }
     });
 
-    console.log(res);
+    let res = await req.json();
+    console.log(JSON.stringify(res));
     this.setState({ request: res, isLoading: false, refreshing: false });
   }
-
   renderList() {
     let list = this.state.request.bookInfo.map(item => {
       <List />;
@@ -53,9 +52,11 @@ export default class ShareScreen extends React.Component {
 
   render() {
     const { isLoading, refreshing } = this.state;
+    console.log(this.state);
     return (
       <View style={styles.container}>
         <ScrollView
+          style={{ marginTop: 30 }}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -64,11 +65,12 @@ export default class ShareScreen extends React.Component {
           }
         >
           {!isLoading ? (
-            this.state.request.bookInfo.map((item, i) => (
+            this.state.request.map((item, i) => (
               <List
                 id={item._id}
                 navigation={this.props.navigation}
                 data={item.bookInfo}
+                resData={item}
                 key={i}
               />
             ))

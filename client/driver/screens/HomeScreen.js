@@ -13,7 +13,7 @@ import { Container, Text, Button, Content, Input, Item } from "native-base";
 import MapSearch from "../components/mapSearch";
 import io from "socket.io-client";
 console.ignoredYellowBox = ["Remote debugger"];
-const localip = "192.168.0.104";
+const localip = "192.168.0.105";
 import { YellowBox } from "react-native";
 YellowBox.ignoreWarnings([
   "Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?"

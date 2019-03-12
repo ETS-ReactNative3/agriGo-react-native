@@ -61,33 +61,15 @@ router.post("/updatesocket/", async (req, res) => {
 router.post("/profile", async (req, res) => {
   const user = req.user;
 
-  let geoFormat = {
-    type: "Point",
-    coordinates: [req.body.lat, req.body.long]
-  };
-
   let foundUser = await User.findById(user._id);
-
-  let location = new Location({
-    location: geoFormat,
-    type: "user",
-    identity: req.user._id
-  });
-
-  if (foundUser.location == undefined) {
-    return res.send("undefined");
-    let updatedLocation = await location.save();
-  }
 
   foundUser.profileBio.name = req.body.name;
   foundUser.profileBio.address = req.body.address;
   foundUser.profileBio.phoneNo = req.body.phoneNo;
-  foundUser.location = location;
-  foundUser.identity = req.user._id;
 
   try {
     let updateUser = await foundUser.save();
-    return res.json(updateUser);
+    return res.json({ message: "user profile updated successfully" });
   } catch (e) {
     return res.json({ error: "cannot update profile" + e });
   }
@@ -395,17 +377,16 @@ router.get("/getLocation", async (req, res) => {
   res.send(nearByDrivers);
 });
 
-
 //get a specific driver with id
-router.get("/:id",async(req,res)=>{
-  try{
+router.get("/:id", async (req, res) => {
+  try {
     let foundDriver = await Driver.findById(req.params.id);
     return res.json(foundDriver);
+  } catch (e) {
+    return res.json({
+      message: "sorry the requested driver could not be found"
+    });
   }
-  catch(e){
-    return res.json({message:"sorry the requested driver could not be found"})
-  }
-  
-})
+});
 
 module.exports = router;
